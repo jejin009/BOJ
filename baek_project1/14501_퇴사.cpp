@@ -1,35 +1,34 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
-#include <utility>
+
 using namespace std;
 
+int max(int a, int b) {
+	return a > b ? a : b;
+}
 int main() {
-	int i, j, N, result= 0;
-	int T[16] = { 0 };
-	int P[16] = {0};
-	int arr[16] = {0};
+	int i, N, result= 0;
+	int T[16] = {0,};
+	int P[16] = {0,};
+	int arr[16] = {0,};
 
 	cin >> N;
 	int day = N + 1;
 
-	for (i = 1; i < day; i++) {
+	for (i = 0; i < N; i++) {
 		cin >> T[i] >> P[i];
 	}
 
-	for (i = 2; i < day; i++) {
-		for (j = 1; j < i; j++) {
-			if (j + T[j] <= i) {
-				arr[i] = max(P[i] + arr[j], arr[i]);
-			}
-		}
-	}
-	for (i = 1; i < day; i++) {
-		if (i + T[i] <= day)
-			if (result < arr[i])
-				result = arr[i];
-	}
+	for (i = 0; i < N; i++) {
+		if (i + T[i] <= N) {
+			arr[i + T[i]] = max(arr[i + T[i]], arr[i] + P[i]);
 
+			result = max(result, arr[i + T[i]]);
+		}
+		arr[i + 1] = max(arr[i + 1], arr[i]);
+
+		result = max(result, arr[i + 1]);
+	}
 
 	cout << result;
 
